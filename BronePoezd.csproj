@@ -308,9 +308,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\MouseController.cs" />
-    <Compile Include="Assets\Scripts\SegmentButtonScript.cs" />
+    <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManager.cs" />
+    <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManagerButtonScript.cs" />
+    <Compile Include="Assets\Scripts\RoadManagerButtons\SegmentButtonScript.cs" />
+    <Compile Include="Assets\Scripts\RoadManagerButtons\SwitcherButtonScript.cs" />
     <Compile Include="Assets\Scripts\SegmentPrefabScript.cs" />
-    <Compile Include="Assets\Scripts\SegmentsConstructor.cs" />
     <Compile Include="Assets\Scripts\TerrainManager.cs" />
     <Compile Include="Assets\Scripts\TerrainTile.cs" />
   </ItemGroup>

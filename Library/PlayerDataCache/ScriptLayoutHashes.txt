@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/ПП/Desktop/Rabota/BronePoezd/builds/CurrentBuilds/18-06-29/18-06-29.exe
+C:/Users/ПП/Desktop/Rabota/BronePoezd/builds/CurrentBuilds/18-07-02/18-07-02.exe
 SceneListBegin?
 Assets/FirstScene.unity
 SceneListEnd?
@@ -107,7 +107,6 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:BronePoezd.Interface.SegmentButtonScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:BronePoezd.MouseController
 322cb40e1e282f28af980cbef7922a90 UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
@@ -140,7 +139,7 @@ f02726adeff0a3ec5905565234b372da UnityEngine.TestRunner.dll:UnityEngine.TestTool
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 67a5f2c97205d2e41a8ed7c7ce898f6e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
 67a5f2c97205d2e41a8ed7c7ce898f6e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
-b88dd6fb77369ed2a9f2cb1a2fd36a5a Assembly-CSharp.dll:BronePoezd.Interface.SegmentsConstructor
+fcd11edb8d4877b199adaf3c70ffc6fd Assembly-CSharp.dll:BronePoezd.Interface.RoadManager
 9e0ef5bf862444b5dc48b5a99554ce7c UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioListenerExtension
 e0f7ffd5d5c2abe4b2e16569a21163da UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 67a5f2c97205d2e41a8ed7c7ce898f6e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
@@ -152,3 +151,5 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 ca45c1e1a8d66a6f380e478d1a8945ed Assembly-CSharp.dll:BronePoezd.Interface.SegmentPrefabScript
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:BronePoezd.Interface.SegmentButtonScript
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:BronePoezd.Interface.SwitcherButtonScript
