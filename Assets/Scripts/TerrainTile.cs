@@ -136,6 +136,27 @@ namespace BronePoezd.Terrain
             return (Exit1IsCommon || Exit2IsCommon);
         }
 
+        public RoadSegment GetActiveSegment()
+        {
+            RoadSegment result = null;
+
+            foreach (RoadSegment segment in TileSegments)
+            {
+                if (segment.Status == SegmentStatus.active)
+                {
+                    result = segment;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public void SetPosition (Vector2Int position)
+        {
+            Position = position;
+        }
+
         public class RoadSegment
         {
             public byte Exit1 { get; private set; }

@@ -14,6 +14,7 @@ namespace BronePoezd.Terrain
         int fieldWidth, fieldHeight;
         [SerializeField]
         float tileSize;
+        TerrainTile[,] tileMatrix;
 
         public float TileSize
         {
@@ -30,6 +31,8 @@ namespace BronePoezd.Terrain
 
         void CreateTerrain()
         {
+            tileMatrix = new TerrainTile[fieldWidth, fieldHeight];
+
             Vector2 tileSizeVector = new Vector2(tileSize, tileSize);
             foreach (GameObject prefab in terrainPrefabs)
             {
@@ -42,16 +45,31 @@ namespace BronePoezd.Terrain
                 for (int heightCursor = 0; heightCursor < fieldHeight; heightCursor++)
                 {
                     Vector2 newTilePosition = new Vector2(widthCursor * tileSize, heightCursor * tileSize);
-                    InstantiateTile(terrainPrefabs[0], newTilePosition, thisTransform);
+                    GameObject newTile = InstantiateTile(terrainPrefabs[0], newTilePosition, thisTransform);
+                    newTile.name = string.Format("Tile [{0}, {1}]", widthCursor, heightCursor);
+                    TerrainTile newTileScript = newTile.GetComponent<TerrainTile>();
+                    newTileScript.SetPosition(new Vector2Int(widthCursor, heightCursor));
+                    tileMatrix[widthCursor, heightCursor] = newTileScript;
+
                 }
             }
 
             Camera.main.GetComponent<CameraController>().InitializeCamera(fieldWidth * tileSize, fieldHeight * tileSize);
         }
 
-        void InstantiateTile (GameObject prefab, Vector2 position, Transform parent)
+        GameObject InstantiateTile (GameObject prefab, Vector2 position, Transform parent)
         {
-            Instantiate(prefab, position, new Quaternion(), parent);
+            return Instantiate(prefab, position, new Quaternion(), parent);
+        }
+
+        public Vector2Int GetFieldSize()
+        {
+            return new Vector2Int(fieldWidth, fieldHeight);
+        }
+
+        public TerrainTile[,] GetTileMatrix()
+        {
+            return tileMatrix;
         }
     }
 }

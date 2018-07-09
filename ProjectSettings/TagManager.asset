@@ -48,3 +48,9 @@ TagManager:
   - name: RailWay
     uniqueID: 3749669625
     locked: 0
+  - name: Trains
+    uniqueID: 3690456145
+    locked: 0
+  - name: AtmosphereEffects
+    uniqueID: 3219621109
+    locked: 0

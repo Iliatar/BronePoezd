@@ -6,6 +6,7 @@ using BronePoezd;
 using UnityEngine;
 using UnityEngine.UI;
 using BronePoezd.Terrain;
+using BronePoezd.Train;
 
 namespace BronePoezd.Interface
 {
@@ -15,12 +16,14 @@ namespace BronePoezd.Interface
         [SerializeField]
         int buttonSize, edgeIntend;
         [SerializeField]
-        GameObject segmentButtonPrefab, switcherModeButton;
+        GameObject segmentButtonPrefab, switcherModeButton, trainModeButton;
         GameObject activeButton;
+        [SerializeField]
+        GameObject train;
         SelectedSegmentInfo activeSegmentInfo;
         [SerializeField]
         Canvas buttonsParent;
-        public enum ConstructionMode : byte { empty, builder, switcher}
+        public enum ConstructionMode : byte { empty, builder, switcher, train}
         ConstructionMode constructionMode;
 
         private void Start()
@@ -39,7 +42,7 @@ namespace BronePoezd.Interface
             RectTransform parentRect = buttonsParent.GetComponent<RectTransform>();
 
             SetCanvas(segmentPrefabsList.Length, parentRect);
-            SetFunctionalButtons(segmentPrefabsList);
+            SetFunctionalPanel(segmentPrefabsList);
             SetPrefab();
 
             int maxRotationCount = 0;
@@ -62,14 +65,20 @@ namespace BronePoezd.Interface
 
         }
 
-        private void SetFunctionalButtons(SegmentPrefabScript[] segmentPrefabsList)
+        private void SetFunctionalPanel(SegmentPrefabScript[] segmentPrefabsList)
         {
-            RectTransform smbRect = switcherModeButton.GetComponent<RectTransform>();
-            float x = buttonSize / 2 + buttonSize * segmentPrefabsList.Count() + edgeIntend;
-            float y = -(buttonSize / 2 + edgeIntend);
-            smbRect.localPosition = new Vector2(x, y);
-            smbRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize);
-            smbRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize);
+            SetFunctionalButton(switcherModeButton, segmentPrefabsList.Count(), 0);
+            SetFunctionalButton(trainModeButton, segmentPrefabsList.Count(), 1);
+        }
+
+        void SetFunctionalButton (GameObject button, int xPos, int yPos)
+        {
+            RectTransform buttonRect = button.GetComponent<RectTransform>();
+            float x = buttonSize / 2 + buttonSize * xPos + edgeIntend;
+            float y = -(buttonSize / 2 + buttonSize * yPos + edgeIntend);
+            buttonRect.localPosition = new Vector2(x, y);
+            buttonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize);
+            buttonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize);
         }
 
         private void InstantiateButton(int prefabIndex, int rotationIndex, SegmentPrefabScript prefabScript)
@@ -121,16 +130,25 @@ namespace BronePoezd.Interface
         {
             if (clickedObject != null && clickedObject.tag == "Map Tiles")
             {
+                TerrainTile clickedTile = clickedObject.GetComponent<TerrainTile>();
                 switch (constructionMode)
                 {
                     case ConstructionMode.builder:
                         {
-                            clickedObject.GetComponent<TerrainTile>().TryAddSegment(activeSegmentInfo);
+                            clickedTile.TryAddSegment(activeSegmentInfo);
                             break;
                         }
                     case ConstructionMode.switcher:
                         {
-                            clickedObject.GetComponent<TerrainTile>().IterateActiveSegment();
+                            clickedTile.GetComponent<TerrainTile>().IterateActiveSegment();
+                            break;
+                        }
+                    case ConstructionMode.train:
+                        {
+                            if (!train.activeSelf)
+                            {
+                                train.GetComponent<TrainController>().TryChangeCurrentTile(clickedTile);
+                            }
                             break;
                         }
                     default:
@@ -164,6 +182,11 @@ namespace BronePoezd.Interface
                         }
                 }
             }
+
+            if (clickedObject == train)
+            {
+                train.GetComponent<TrainController>().DestroyTrain();
+            }
         }
 
         public void SetActiveButton (GameObject clickedButton, ConstructionMode mode)
@@ -186,6 +209,10 @@ namespace BronePoezd.Interface
             else if (constructionMode == ConstructionMode.switcher)
             {
                 Debug.Log("Switcher mode activated");
+            }
+            else if (constructionMode == ConstructionMode.train)
+            {
+                Debug.Log("Train mode activated");
             }
         }
 

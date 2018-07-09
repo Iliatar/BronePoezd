@@ -308,13 +308,16 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\MouseController.cs" />
+    <Compile Include="Assets\Scripts\RoadManagerButtons\ModeButtonScript.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManager.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManagerButtonScript.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\SegmentButtonScript.cs" />
-    <Compile Include="Assets\Scripts\RoadManagerButtons\SwitcherButtonScript.cs" />
     <Compile Include="Assets\Scripts\SegmentPrefabScript.cs" />
+    <Compile Include="Assets\Scripts\SegmentsPathLibrary.cs" />
     <Compile Include="Assets\Scripts\TerrainManager.cs" />
     <Compile Include="Assets\Scripts\TerrainTile.cs" />
+    <Compile Include="Assets\Scripts\TrainController.cs" />
+    <Compile Include="Assets\Scripts\TrainTrustController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sprites\License.txt" />

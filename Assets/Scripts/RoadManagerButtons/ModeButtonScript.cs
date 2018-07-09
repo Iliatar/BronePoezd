@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace BronePoezd.Interface
-
 {
-    public class SwitcherButtonScript : RoadManagerButtonScript
+    public class ModeButtonScript : RoadManagerButtonScript
     {
+        [SerializeField]
+        RoadManager.ConstructionMode buttonMode;
+
         override protected void Awake()
         {
             base.Awake();
-            constructionMode = RoadManager.ConstructionMode.switcher;
+            constructionMode = buttonMode;
         }
     }
 }
