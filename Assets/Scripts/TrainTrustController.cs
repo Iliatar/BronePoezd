@@ -18,28 +18,10 @@ namespace BronePoezd.Train
         private void OnEnable()
         {
             slider = GetComponent<Slider>();
-            slider.maxValue = thrustSteps + reverseSteps + 1;
-            slider.value = reverseSteps + 1;
+            slider.maxValue = thrustSteps + reverseSteps;
+            slider.value = reverseSteps;
             UpdateSliderColor(0);
             Debug.Log("TrainTrustController.OnEnable() executed");
-        }
-
-        public void BrakeButtonPressedHandler()
-        {
-            if (slider.value >0)
-            {
-                slider.value--;
-                UpdateThrust();
-            }
-        }
-
-        public void ThrottleButtonPressedHandler()
-        {
-            if (slider.value < slider.maxValue)
-            {
-                slider.value++;
-                UpdateThrust();
-            }
         }
 
         void UpdateSliderColor(float thrustCoefficient)
@@ -56,19 +38,18 @@ namespace BronePoezd.Train
             sliderBackGroundImage.color = newColor;
         }
 
-        void UpdateThrust()
+        public void UpdateThrust()
         {
             float thrustCoefficient = 0;
-            if (slider.value >= reverseSteps)
+            thrustCoefficient = (slider.value - reverseSteps) / thrustSteps;
+            if (thrustCoefficient < 0.2 && thrustCoefficient > -0.2)
             {
-                thrustCoefficient = (slider.value - reverseSteps - 1) / thrustSteps;
-            }
-            else
-            {
-                thrustCoefficient = (slider.value - reverseSteps) / thrustSteps;
+                thrustCoefficient = 0;
+                slider.value = reverseSteps;
             }
             trainController.SetThrust(thrustCoefficient);
             UpdateSliderColor(thrustCoefficient);
+            
         }
     }
 }

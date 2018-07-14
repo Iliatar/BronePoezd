@@ -35,7 +35,7 @@ namespace BronePoezd.Train
             mass = 500000;
             maxThrust = 20000;
             maxSpeed = 0.3f;
-            maxBreakingForce = 40000;
+            maxBreakingForce = 10000;
             dragAtMaxSpeed = 7000;
             currentL = 0;
             InitializeWithZeroSpeed();
@@ -129,79 +129,81 @@ namespace BronePoezd.Train
             Debug.LogFormat("UpdateCurrentSpeed() executed. thrust = {0}, drag = {1}, breakinForce = {2}, acceleration = {3}, currentSpeed = {4}", thrust, drag, breakingForce, acceleration, currentSpeed);
         }
 
-        //TODO: провести рефакторинг
         private void ChangeCurrentMapTile(bool isMovingForvard)
         {
             Debug.LogFormat("ChangeCurrentMapTile() starting Execution. isMovingForvard = {0}", isMovingForvard);
-            TerrainTile newTile = null;
-            if (isMovingForvard)
-            {
-                newTile = FindNewTile(exitTo);
-                currentL -= pathData.LMax;
-                Debug.LogFormat("ChangeCurrentMapTile() executing. CurrentL after reset = {0}", currentL);
 
-            }
-            else
-            {
-                newTile = FindNewTile(exitFrom);
-                Debug.LogFormat("ChangeCurrentMapTile() executing. CurrentL after reset = {0}", currentL);
-            }
+            byte findNewTileArgument = isMovingForvard ? exitTo : exitFrom;
+            TerrainTile newTile = FindNewTile(findNewTileArgument);
 
-            TerrainTile.RoadSegment newSegment = newTile.GetActiveSegment();
-            if (isMovingForvard)
+            bool noCouplingSegment = true;
+
+            if (newTile != null)
             {
+                TerrainTile.RoadSegment newSegment = newTile.GetActiveSegment();
+
                 if (newSegment != null)
                 {
-                    exitFrom = (byte)((exitTo + 4) % 8);
-                    Debug.LogFormat("Setting exitFrom = {0}", exitFrom);
-                    if (newSegment.Exit1 == exitFrom)
+                    bool checkResult;
+                    if (isMovingForvard)
                     {
-                        exitTo = newSegment.Exit2;
-                        Debug.LogFormat("Setting exitTo = {0}", exitTo);
-                    }
-                    else if (newSegment.Exit2 == exitFrom)
-                    {
-                        exitTo = newSegment.Exit1;
-                        Debug.LogFormat("Setting exitTo = {0}", exitTo);
+                        checkResult = CheckCommonExit(ref exitFrom, ref exitTo, newSegment);
                     }
                     else
                     {
-                        DestroyTrain();
-                        Debug.Log("Train crashed!!! There is no active coupling segment in new tile!!!");
+                        checkResult = CheckCommonExit(ref exitTo, ref exitFrom, newSegment);
                     }
-                }
-            }
-            else
-            {
-                if (newSegment != null)
-                {
-                    exitTo = (byte)((exitFrom + 4) % 8);
-                    Debug.LogFormat("Setting exitTo = {0}", exitTo);
-                    if (newSegment.Exit1 == exitTo)
+
+                    if (checkResult)
                     {
-                        exitFrom = newSegment.Exit2;
-                        Debug.LogFormat("Setting exitFrom = {0}", exitFrom);
-                    }
-                    else if (newSegment.Exit2 == exitTo)
-                    {
-                        exitFrom = newSegment.Exit1;
-                        Debug.LogFormat("Setting exitFrom = {0}", exitFrom);
-                    }
-                    else
-                    {
-                        DestroyTrain();
-                        Debug.Log("Train crashed!!! There is no active coupling segment in new tile!!!");
+                        if (isMovingForvard)
+                        {
+                            currentL -= pathData.LMax;
+                            pathData = SegmentsPathLibrary.GetInstance().GetSegmentPathData(exitFrom, exitTo);
+                        }
+                        else
+                        {
+                            pathData = SegmentsPathLibrary.GetInstance().GetSegmentPathData(exitFrom, exitTo);
+                            currentL = pathData.LMax + currentL;
+                        }
+
+                        SetCurrentTile(newTile);
+                        noCouplingSegment = false;
+                        Debug.LogFormat("ChangeCurrentMapTile() executed. CurrentL after reset = {0}", currentL);
                     }
                 }
             }
 
-            SetCurrentTile(newTile);
-            pathData = SegmentsPathLibrary.GetInstance().GetSegmentPathData(exitFrom, exitTo);
-            if (!isMovingForvard)
+            if (noCouplingSegment)
             {
-                currentL = pathData.LMax + currentL;
+                Debug.Log("Train crashed!!! There is no active coupling segment in new tile!!!");
+                DestroyTrain();
             }
-            Debug.LogFormat("ChangeCurrentMapTile() executed. CurrentL = {0}", currentL);
+        }
+
+        private bool CheckCommonExit(ref byte checkedExit, ref byte changedExit, TerrainTile.RoadSegment newSegment)
+        {
+            bool checkResult = true;
+
+            checkedExit = (byte)((changedExit + 4) % 8);
+            Debug.LogFormat("Setting exitFrom = {0}", exitFrom);
+
+            if (newSegment.Exit1 == checkedExit)
+            {
+                changedExit = newSegment.Exit2;
+                Debug.LogFormat("Setting exitTo = {0}", exitTo);
+            }
+            else if (newSegment.Exit2 == checkedExit)
+            {
+                changedExit = newSegment.Exit1;
+                Debug.LogFormat("Setting exitTo = {0}", exitTo);
+            }
+            else
+            {
+                checkResult = false;
+            }
+
+            return checkResult;
         }
 
         private TerrainTile FindNewTile(byte exitTo)
@@ -265,11 +267,6 @@ namespace BronePoezd.Train
             {
                 newTile = terrainManager.GetTileMatrix()[x, y];
                 Debug.LogFormat("newTile is tile[{0}, {1}]", x, y);
-            }
-            else
-            {
-                DestroyTrain();
-                Debug.Log("Train was left from RailRoad");
             }
             return newTile;
         }

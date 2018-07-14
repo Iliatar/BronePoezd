@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BronePoezd.Terrain
 {
@@ -15,6 +16,10 @@ namespace BronePoezd.Terrain
         [SerializeField]
         float tileSize;
         TerrainTile[,] tileMatrix;
+        SpriteRenderer[,] gridMatrix;
+        bool gridIsHighLighted;
+        [SerializeField]
+        Image toggleGridButtonImage;
 
         public float TileSize
         {
@@ -32,6 +37,7 @@ namespace BronePoezd.Terrain
         void CreateTerrain()
         {
             tileMatrix = new TerrainTile[fieldWidth, fieldHeight];
+            gridMatrix = new SpriteRenderer[fieldWidth, fieldHeight]; 
 
             Vector2 tileSizeVector = new Vector2(tileSize, tileSize);
             foreach (GameObject prefab in terrainPrefabs)
@@ -50,7 +56,8 @@ namespace BronePoezd.Terrain
                     TerrainTile newTileScript = newTile.GetComponent<TerrainTile>();
                     newTileScript.SetPosition(new Vector2Int(widthCursor, heightCursor));
                     tileMatrix[widthCursor, heightCursor] = newTileScript;
-
+                    gridMatrix[widthCursor, heightCursor] = newTile.GetComponentsInChildren<SpriteRenderer>()[1];
+                    gridIsHighLighted = true;
                 }
             }
 
@@ -70,6 +77,23 @@ namespace BronePoezd.Terrain
         public TerrainTile[,] GetTileMatrix()
         {
             return tileMatrix;
+        }
+
+        public void ToggleGrid()
+        {
+            gridIsHighLighted = !gridIsHighLighted;
+            foreach (SpriteRenderer sprite in gridMatrix)
+            {
+                sprite.enabled = gridIsHighLighted;
+            }
+            if (gridIsHighLighted)
+            {
+                toggleGridButtonImage.color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                toggleGridButtonImage.color = new Color(1, 1, 1, 0.4f);
+            }
         }
     }
 }

@@ -20,16 +20,17 @@ namespace BronePoezd.Train
         }
         #endregion
 
+        //константы для больших кривых
+        const float rMax = 1.5f;
+        const float rMin = 1.4142135623f;
+        const float lMaxStraigthCoeff = 0.975f;
+        const float lMaxDiagonalCoeff = 1.025f;
+
         public SegmentPathData GetSegmentPathData(byte exitFrom, byte exitTo)
         {
             Func<float, float> xFunc = null;
             Func<float, float> yFunc = null;
             float lMax = 0;
-
-            //константы для больших кривых
-            const float rMax = 1.5f;
-            const float rMin = 1.4142135623f;
-            const float lMaxCoeff = 1.03f;
 
             string codeFromTo = exitFrom.ToString() + exitTo.ToString();
             switch (codeFromTo)
@@ -182,12 +183,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "16"://не проверено
+                case "16"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI/2;
@@ -207,12 +208,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "30"://не проверено
+                case "30"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 0;
@@ -232,12 +233,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "52"://не проверено
+                case "52"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 3;
@@ -257,12 +258,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "72"://не проверено
+                case "72"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 0;
@@ -282,12 +283,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "14"://не проверено
+                case "14"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 3;
@@ -307,12 +308,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "36"://не проверено
+                case "36"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 2;
@@ -332,12 +333,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "50"://не проверено
+                case "50"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 2 * 1;
@@ -357,12 +358,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxDiagonalCoeff;
 
                         break;
                     }
 
-                case "47"://не проверено
+                case "47"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 4 * 3;
@@ -382,13 +383,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-
-                case "61"://не проверено
+                case "61"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 4 * 1;
@@ -408,13 +408,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-
-                case "03"://не проверено
+                case "03"://проверено
                     {
 
                         const float angleOffset = (float)Math.PI / 4 * 7;
@@ -434,13 +433,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-
-                case "25"://не проверено
+                case "25"://проверено
                     {
                         const float angleOffset = (float)Math.PI / 4 * 5;
                         const float xOffset = 1;
@@ -459,12 +457,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-                case "63"://не проверено
+                case "63"://проверено
                     {
                         const float angleOffset = (float)Math.PI / 4 * 5;
                         const float xOffset = 2;
@@ -483,12 +481,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-                case "41"://не проверено
+                case "41"://проверено
                     {
                         const float angleOffset = (float)Math.PI / 4 * 7;
                         const float xOffset = 0;
@@ -507,12 +505,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-                case "27"://не проверено
+                case "27"://проверено
                     {
                         const float angleOffset = (float)Math.PI / 4 * 1;
                         const float xOffset = -1;
@@ -531,12 +529,12 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
 
-                case "05"://не проверено
+                case "05"://проверено
                     {
                         const float angleOffset = (float)Math.PI / 4 * 3;
                         const float xOffset = 1;
@@ -555,13 +553,10 @@ namespace BronePoezd.Train
                             return (float)Math.Sin(sign * l / rCur + angleOffset) * rCur + yOffset;
                         });
 
-                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxCoeff;
+                        lMax = (rMax + rMin) / 2 * (float)Math.PI / 4 / lMaxStraigthCoeff;
 
                         break;
                     }
-
-
-
                 #endregion
                 default:
                     {

@@ -350,11 +350,11 @@
     <Compile Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.standardevents@1.0.13\Editor\Importer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sprites\License.txt" />
     <None Include="Assets\Sprites\Spritesheet\allSprites_default.xml" />
     <None Include="Assets\Sprites\Spritesheet\allSprites_retina.xml" />
     <None Include="Assets\Sprites\Spritesheet\onlyObjects_default.xml" />
     <None Include="Assets\Sprites\Spritesheet\onlyObjects_retina.xml" />
+    <None Include="Assets\Sprites\Vector\License.txt" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\Alert.uxml" />

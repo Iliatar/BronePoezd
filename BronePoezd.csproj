@@ -306,6 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BreakingButtonScript.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\MouseController.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\ModeButtonScript.cs" />
@@ -320,11 +321,11 @@
     <Compile Include="Assets\Scripts\TrainTrustController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Sprites\License.txt" />
     <None Include="Assets\Sprites\Spritesheet\allSprites_default.xml" />
     <None Include="Assets\Sprites\Spritesheet\allSprites_retina.xml" />
     <None Include="Assets\Sprites\Spritesheet\onlyObjects_default.xml" />
     <None Include="Assets\Sprites\Spritesheet\onlyObjects_retina.xml" />
+    <None Include="Assets\Sprites\Vector\License.txt" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="C:\Users\ПП\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.package-manager-ui@1.8.8\Editor\Resources\Templates\Alert.uxml" />
