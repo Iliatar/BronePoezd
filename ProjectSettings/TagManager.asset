@@ -51,6 +51,9 @@ TagManager:
   - name: Trains
     uniqueID: 3690456145
     locked: 0
+  - name: Buildings
+    uniqueID: 586060219
+    locked: 0
   - name: AtmosphereEffects
     uniqueID: 3219621109
     locked: 0

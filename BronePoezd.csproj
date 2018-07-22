@@ -307,6 +307,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BreakingButtonScript.cs" />
+    <Compile Include="Assets\DepoManagerController.cs" />
+    <Compile Include="Assets\PlatformButtonScript.cs" />
+    <Compile Include="Assets\PlatformIconScript.cs" />
+    <Compile Include="Assets\Scripts\BronePoezd.Train\PlatformController.cs" />
+    <Compile Include="Assets\Scripts\BronePoezd.Train\SegmentsPathLibrary.cs" />
+    <Compile Include="Assets\Scripts\BronePoezd.Train\TrainController.cs" />
+    <Compile Include="Assets\Scripts\BronePoezd.Train\TrainPhysParams.cs" />
+    <Compile Include="Assets\Scripts\BronePoezd.Train\TrainTrustController.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\MouseController.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\ModeButtonScript.cs" />
@@ -314,11 +322,8 @@
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManagerButtonScript.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\SegmentButtonScript.cs" />
     <Compile Include="Assets\Scripts\SegmentPrefabScript.cs" />
-    <Compile Include="Assets\Scripts\SegmentsPathLibrary.cs" />
     <Compile Include="Assets\Scripts\TerrainManager.cs" />
     <Compile Include="Assets\Scripts\TerrainTile.cs" />
-    <Compile Include="Assets\Scripts\TrainController.cs" />
-    <Compile Include="Assets\Scripts\TrainTrustController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Sprites\Spritesheet\allSprites_default.xml" />

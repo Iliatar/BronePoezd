@@ -13,7 +13,7 @@ namespace BronePoezd.Terrain
 
         static TerrainManager terrainManager;
 
-        const byte SegmentsLimit = 3;
+        const byte segmentsLimit = 3;
         public Vector2Int Position { get; private set; }
         public TerrainTypes TerrainType { get; private set; }
         public List<RoadSegment> TileSegments { get; private set; }
@@ -30,13 +30,13 @@ namespace BronePoezd.Terrain
         public void TryAddSegment(RoadManager.SelectedSegmentInfo segmentInfo)
         {
             RoadSegment addedSegment = new RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, SegmentStatus.active, null);
-            if (TileSegments.Count < SegmentsLimit)
+            if (TileSegments.Count < segmentsLimit)
             {
                 if (!TileSegments.Contains(addedSegment))
                 {
                     if (ContainsCommonExit(addedSegment))
                     {
-                        AddSegment(segmentInfo);
+                            AddSegment(segmentInfo);
                     }
                 }
             }
@@ -156,6 +156,7 @@ namespace BronePoezd.Terrain
         {
             Position = position;
         }
+
 
         public class RoadSegment
         {

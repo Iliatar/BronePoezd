@@ -16,15 +16,16 @@ namespace BronePoezd.Interface
         [SerializeField]
         int buttonSize, edgeIntend;
         [SerializeField]
-        GameObject segmentButtonPrefab, switcherModeButton, trainModeButton;
+        GameObject segmentButtonPrefab, switcherModeButton;
         GameObject activeButton;
         [SerializeField]
         GameObject train;
         SelectedSegmentInfo activeSegmentInfo;
         [SerializeField]
-        Canvas buttonsParent;
-        public enum ConstructionMode : byte { empty, builder, switcher, train}
+        Canvas buttonsParent, depoPanel;
+        public enum ConstructionMode : byte { empty, builder, switcher, depot }
         ConstructionMode constructionMode;
+        bool depotExist;
 
         private void Start()
         {
@@ -32,6 +33,7 @@ namespace BronePoezd.Interface
             MouseController.GetInstance().ClickRMBevent += ClickRMBHandler;
 
             constructionMode = ConstructionMode.empty;
+            depotExist = false;
 
             CreateButtonsPanel();
         }
@@ -43,7 +45,6 @@ namespace BronePoezd.Interface
 
             SetCanvas(segmentPrefabsList.Length, parentRect);
             SetFunctionalPanel(segmentPrefabsList);
-            SetPrefab();
 
             int maxRotationCount = 0;
             int prefabIndex = 0;
@@ -68,10 +69,9 @@ namespace BronePoezd.Interface
         private void SetFunctionalPanel(SegmentPrefabScript[] segmentPrefabsList)
         {
             SetFunctionalButton(switcherModeButton, segmentPrefabsList.Count(), 0);
-            SetFunctionalButton(trainModeButton, segmentPrefabsList.Count(), 1);
         }
 
-        void SetFunctionalButton (GameObject button, int xPos, int yPos)
+        void SetFunctionalButton(GameObject button, int xPos, int yPos)
         {
             RectTransform buttonRect = button.GetComponent<RectTransform>();
             float x = buttonSize / 2 + buttonSize * xPos + edgeIntend;
@@ -103,27 +103,23 @@ namespace BronePoezd.Interface
 
             float zRotationAngle = -90 * rotationIndex;
             addedButtonRect.localRotation = Quaternion.Euler(0, 0, zRotationAngle);
+
+            addedButtonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize);
+            addedButtonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize);
+
+            float imageScaler = 0.75f;
+            RectTransform addedButtonImageRect = addedButton.GetComponentsInChildren<RectTransform>()[1];
+            addedButtonImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize * imageScaler);
+            addedButtonImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize * imageScaler);
         }
 
         private void SetCanvas(int listLength, RectTransform parentRect)
         {
-            int horizontalSize = buttonSize * (listLength + 1) + edgeIntend*2;
+            int horizontalSize = buttonSize * (listLength + 1) + edgeIntend * 2;
             parentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, horizontalSize);
-            int verticalSize = buttonSize + 20;
+            int verticalSize = buttonSize + edgeIntend * 2;
             parentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, verticalSize);
 
-        }
-
-        private void SetPrefab()
-        {
-            RectTransform buttonPrefabRect = segmentButtonPrefab.GetComponent<RectTransform>();
-            buttonPrefabRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize);
-            buttonPrefabRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize);
-
-            float imageScaler = 0.75f;
-            RectTransform buttonPrefabImageRect = segmentButtonPrefab.GetComponentsInChildren<RectTransform>()[1];
-            buttonPrefabImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonSize * imageScaler);
-            buttonPrefabImageRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize * imageScaler);
         }
 
         private void ClickLMBHandler(GameObject clickedObject)
@@ -135,20 +131,15 @@ namespace BronePoezd.Interface
                 {
                     case ConstructionMode.builder:
                         {
-                            clickedTile.TryAddSegment(activeSegmentInfo);
+                            if (CheckDepotBuild(activeSegmentInfo, clickedTile))
+                            {
+                                clickedTile.TryAddSegment(activeSegmentInfo);
+                            }
                             break;
                         }
                     case ConstructionMode.switcher:
                         {
                             clickedTile.GetComponent<TerrainTile>().IterateActiveSegment();
-                            break;
-                        }
-                    case ConstructionMode.train:
-                        {
-                            if (!train.activeSelf)
-                            {
-                                train.GetComponent<TrainController>().TryChangeCurrentTile(clickedTile);
-                            }
                             break;
                         }
                     default:
@@ -164,11 +155,13 @@ namespace BronePoezd.Interface
         {
             if (clickedObject != null && clickedObject.tag == "Map Tiles")
             {
+                TerrainTile clickedTile = clickedObject.GetComponent<TerrainTile>();
                 switch (constructionMode)
                 {
                     case ConstructionMode.builder:
                         {
-                            clickedObject.GetComponent<TerrainTile>().TryRemoveSegment(activeSegmentInfo);
+                            CheckDepotRemove(activeSegmentInfo, clickedTile);
+                            clickedTile.TryRemoveSegment(activeSegmentInfo);
                             break;
                         }
                     case ConstructionMode.switcher:
@@ -182,14 +175,9 @@ namespace BronePoezd.Interface
                         }
                 }
             }
-
-            if (clickedObject == train)
-            {
-                train.GetComponent<TrainController>().DestroyTrain();
-            }
         }
 
-        public void SetActiveButton (GameObject clickedButton, ConstructionMode mode)
+        public void SetActiveButton(GameObject clickedButton, ConstructionMode mode)
         {
             if (activeButton != null)
             {
@@ -210,10 +198,6 @@ namespace BronePoezd.Interface
             {
                 Debug.Log("Switcher mode activated");
             }
-            else if (constructionMode == ConstructionMode.train)
-            {
-                Debug.Log("Train mode activated");
-            }
         }
 
         void SetActiveSegmentInfo(GameObject clickedButton)
@@ -224,6 +208,56 @@ namespace BronePoezd.Interface
             Sprite sprite = activeButton.GetComponentsInChildren<Image>()[1].sprite;
             float rotation = activeButton.GetComponent<RectTransform>().rotation.eulerAngles.z;
             activeSegmentInfo = new SelectedSegmentInfo(exit1, exit2, sprite, rotation);
+        }
+
+        private bool CheckDepotBuild(SelectedSegmentInfo activeSegment, TerrainTile addedTile)
+        {
+            bool result = false;
+            List<TerrainTile.RoadSegment> tileSegments = addedTile.TileSegments;
+
+            bool addedSegmentIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
+            if (addedSegmentIsDepot)
+            {
+                Debug.LogFormat("Try to add Depot. depotExist = {0}", depotExist);
+                if (!depotExist && tileSegments.Count == 0)
+                {
+                    result = true;
+                    depotExist = true;
+                    depoPanel.GetComponent<DepoManagerController>().TogglePanelOn(addedTile.Position);
+                }
+            }
+            else
+            {
+                if (tileSegments.Count > 0)
+                {
+                    bool tileHasDepot = tileSegments[0].Exit1 == 3 && tileSegments[0].Exit2 == 3;
+                    if (!tileHasDepot)
+                    {
+                        result = true;
+                    }
+                }
+                result = true;
+            }
+
+            return result;
+        }
+
+        private void CheckDepotRemove(SelectedSegmentInfo activeSegment, TerrainTile removedTile)
+        {
+            if (depotExist)
+            {
+                bool selectedIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
+                if (selectedIsDepot)
+                {
+                    List<TerrainTile.RoadSegment> tileSegments = removedTile.TileSegments;
+                    bool removedTileHasDepot = tileSegments.Count > 0 && tileSegments[0].Exit1 == 3 && tileSegments[0].Exit2 == 3;
+                    if (removedTileHasDepot)
+                    {
+                        depotExist = false;
+                        depoPanel.GetComponent<DepoManagerController>().TogglePanelOff();
+                    }
+                }
+            }
         }
 
         public struct SelectedSegmentInfo
