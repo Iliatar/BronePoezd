@@ -316,6 +316,7 @@
     <Compile Include="Assets\Scripts\BronePoezd.Train\TrainPhysParams.cs" />
     <Compile Include="Assets\Scripts\BronePoezd.Train\TrainTrustController.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\DepotData.cs" />
     <Compile Include="Assets\Scripts\MouseController.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\ModeButtonScript.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManager.cs" />

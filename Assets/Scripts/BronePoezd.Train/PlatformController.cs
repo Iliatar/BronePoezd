@@ -233,7 +233,7 @@ namespace BronePoezd.Train
 
         public void DestroyPlatform()
         {
-            trainController.DestroyPlatform(this);
+            trainController.MarkPlatformToDestroy(this);
         }
 
         public void SetCurrentL(float currentL)

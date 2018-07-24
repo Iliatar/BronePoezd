@@ -23,9 +23,8 @@ namespace BronePoezd.Interface
         SelectedSegmentInfo activeSegmentInfo;
         [SerializeField]
         Canvas buttonsParent, depoPanel;
-        public enum ConstructionMode : byte { empty, builder, switcher, depot }
+        public enum ConstructionMode : byte { empty, builder, switcher}
         ConstructionMode constructionMode;
-        bool depotExist;
 
         private void Start()
         {
@@ -33,7 +32,6 @@ namespace BronePoezd.Interface
             MouseController.GetInstance().ClickRMBevent += ClickRMBHandler;
 
             constructionMode = ConstructionMode.empty;
-            depotExist = false;
 
             CreateButtonsPanel();
         }
@@ -218,12 +216,11 @@ namespace BronePoezd.Interface
             bool addedSegmentIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
             if (addedSegmentIsDepot)
             {
-                Debug.LogFormat("Try to add Depot. depotExist = {0}", depotExist);
-                if (!depotExist && tileSegments.Count == 0)
+                Debug.LogFormat("Try to add Depot. depotExist = {0}", DepotData.DepotExist());
+                if (!DepotData.DepotExist() && tileSegments.Count == 0)
                 {
                     result = true;
-                    depotExist = true;
-                    depoPanel.GetComponent<DepoManagerController>().TogglePanelOn(addedTile.Position);
+                    DepotData.PlaceDepot(addedTile.Position);
                 }
             }
             else
@@ -244,7 +241,7 @@ namespace BronePoezd.Interface
 
         private void CheckDepotRemove(SelectedSegmentInfo activeSegment, TerrainTile removedTile)
         {
-            if (depotExist)
+            if (DepotData.DepotExist())
             {
                 bool selectedIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
                 if (selectedIsDepot)
@@ -253,7 +250,7 @@ namespace BronePoezd.Interface
                     bool removedTileHasDepot = tileSegments.Count > 0 && tileSegments[0].Exit1 == 3 && tileSegments[0].Exit2 == 3;
                     if (removedTileHasDepot)
                     {
-                        depotExist = false;
+                        DepotData.RemoveDepot();
                         depoPanel.GetComponent<DepoManagerController>().TogglePanelOff();
                     }
                 }

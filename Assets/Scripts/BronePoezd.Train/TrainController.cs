@@ -11,7 +11,8 @@ namespace BronePoezd.Train
         TrainPhysParams physParams;
         float thrustPower;
         float currentSpeed;
-        List<PlatformController> platformList;
+        List<PlatformController> platformList, removedPlatformList;
+        bool platformListIsLocked;
         bool isBreaking;
         bool isInDepot;
         [SerializeField]
@@ -19,6 +20,7 @@ namespace BronePoezd.Train
         [SerializeField]
         Canvas trainControlCanvas;
         const int platformCountLimit = 7;
+        public event Action TrainIsDestroyedEvent;
 
         public float CurrentSpeed
         {
@@ -45,9 +47,33 @@ namespace BronePoezd.Train
             if (!isInDepot)
             {
                 UpdateCurrentSpeed();
+                platformListIsLocked = true;
                 foreach (PlatformController platform in platformList)
                 {
                     platform.UpdatePosition(currentSpeed);
+                }
+                platformListIsLocked = false;
+            }
+
+            DestroyMarkedPlatforms();
+
+        }
+
+        private void DestroyMarkedPlatforms()
+        {
+            if (!platformListIsLocked && removedPlatformList.Count > 0)
+            {
+                foreach (PlatformController platform in removedPlatformList)
+                {
+                    platformList.Remove(platform);
+                    Destroy(platform.gameObject);
+                }
+                physParams = TrainPhysParams.CalculateTotalParams(platformList);
+                removedPlatformList.Clear();
+                if (platformList.Count == 0)
+                {
+                    TrainIsDestroyedEvent();
+                    InitializeInDepot();
                 }
             }
         }
@@ -110,16 +136,13 @@ namespace BronePoezd.Train
 
         private void InitializeInDepot()
         {
+            trainControlCanvas.enabled = false;
             trainControlCanvas.GetComponentInChildren<TrainTrustController>().enabled = false;
             currentSpeed = 0;
             isInDepot = true;
             platformList = new List<PlatformController>();
-        }
-
-        public void DestroyTrain()
-        {
-            gameObject.SetActive(false);
-            FindObjectOfType<TrainTrustController>().enabled = false;
+            removedPlatformList = new List<PlatformController>();
+            platformListIsLocked = false;
         }
 
         public bool AddPlatform(TrainPhysParams platformPhysParams, Sprite sprite, Vector2Int depotPosition)
@@ -144,16 +167,15 @@ namespace BronePoezd.Train
             return result;
         }
 
-        public void DestroyPlatform(PlatformController removedPlatform)
+        public void MarkPlatformToDestroy(PlatformController removedPlatform)
         {
-            platformList.Remove(removedPlatform);
-            physParams = TrainPhysParams.CalculateTotalParams(platformList);
-            Destroy(removedPlatform.gameObject);
+            removedPlatformList.Add(removedPlatform);
+            DestroyMarkedPlatforms();
         }
 
-        public void DestroyPlatform(int removeIndex)
+        public void MarkPlatformToDestroy(int removeIndex)
         {
-            DestroyPlatform(platformList[removeIndex]);
+            MarkPlatformToDestroy(platformList[removeIndex]);
         }
 
         public void LaunchTrain()

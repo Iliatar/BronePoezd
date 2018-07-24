@@ -18,7 +18,6 @@ namespace BronePoezd.Train
         int buttonSize, edgeIntend;
         TrainController train;
         Canvas panelCanvas;
-        Vector2Int depoPosition;
 
         private void Awake()
         {
@@ -32,6 +31,7 @@ namespace BronePoezd.Train
             panelCanvas = GetComponent<Canvas>();
             panelCanvas.enabled = false;
             CreateTypeButtons();
+            train.TrainIsDestroyedEvent += TrainIsDestroyedEventHandler;
         }
 
         private void CreateTypeButtons()
@@ -70,7 +70,7 @@ namespace BronePoezd.Train
 
         public void AddVagon(TrainPhysParams physParams, Sprite sprite)
         {
-            bool addIsSucced = train.AddPlatform(physParams, sprite, depoPosition);
+            bool addIsSucced = train.AddPlatform(physParams, sprite, DepotData.DepotPosition());
 
             if (addIsSucced)
             {
@@ -122,19 +122,27 @@ namespace BronePoezd.Train
         public void RemoveVagon (GameObject pressedIcon)
         {
             int removeIndex = platformIconsList.IndexOf(pressedIcon);
-            train.DestroyPlatform(removeIndex);
+            train.MarkPlatformToDestroy(removeIndex);
             RedrawPlatformIcons();
         }
 
-        public void TogglePanelOn (Vector2Int depoPosition)
+        public void TogglePanelOn ()
         {
+            RedrawPlatformIcons();
             panelCanvas.enabled = true;
-            this.depoPosition = depoPosition;
         }
 
         public void TogglePanelOff ()
         {
             panelCanvas.enabled = false;
+        }
+
+        private void TrainIsDestroyedEventHandler()
+        {
+            if (DepotData.DepotExist())
+            {
+                TogglePanelOn();
+            }
         }
 
         public void GoButtonPresssedHandler()
