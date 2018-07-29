@@ -14,7 +14,6 @@ namespace BronePoezd.Train
         List<PlatformController> platformList, removedPlatformList;
         bool platformListIsLocked;
         bool isBreaking;
-        bool isInDepot;
         [SerializeField]
         GameObject platformPrefab;
         [SerializeField]
@@ -44,7 +43,7 @@ namespace BronePoezd.Train
 
         private void Update()
         {
-            if (!isInDepot)
+            if (!DepotMediator.TrainIsInDepot)
             {
                 UpdateCurrentSpeed();
                 platformListIsLocked = true;
@@ -53,6 +52,11 @@ namespace BronePoezd.Train
                     platform.UpdatePosition(currentSpeed);
                 }
                 platformListIsLocked = false;
+
+                if(CheckTrainIsInDepot())
+                {
+                    SetTrainInDepot();
+                }
             }
 
             DestroyMarkedPlatforms();
@@ -123,10 +127,15 @@ namespace BronePoezd.Train
             {
                 thrustPower = -1;
             }
-            ParticleSystem.EmissionModule emisModule = GetComponentInChildren<ParticleSystem>().emission;
-            //TODO дым должен идти из локомотивов
-            emisModule.rateOverTime = 12 * Math.Abs(thrustPower);
-            Debug.LogFormat("TrainController.SetThrust() executed. thrusterPower = {0}", thrustPower);
+            foreach (var platform in platformList)
+            {
+                float platformMaxThrust = platform.GetPhysParams().GetMaxThrust();
+                if (platformMaxThrust > 0)
+                {
+                    ParticleSystem.EmissionModule emisModule = platform.GetComponentInChildren<ParticleSystem>().emission;
+                    emisModule.rateOverTime = 12 * Math.Abs(thrustPower) * platformMaxThrust / 20;
+                }
+            }
         }
 
         public void ChangeBreaking(bool newBreakingStatus)
@@ -136,32 +145,28 @@ namespace BronePoezd.Train
 
         private void InitializeInDepot()
         {
-            trainControlCanvas.enabled = false;
-            trainControlCanvas.GetComponentInChildren<TrainTrustController>().enabled = false;
-            currentSpeed = 0;
-            isInDepot = true;
             platformList = new List<PlatformController>();
             removedPlatformList = new List<PlatformController>();
+            SetTrainInDepot();
             platformListIsLocked = false;
         }
 
-        public bool AddPlatform(TrainPhysParams platformPhysParams, Sprite sprite, Vector2Int depotPosition)
+        public bool AddPlatform(TrainPhysParams platformPhysParams, Sprite sprite)
         {
             bool result = false;
-            if (isInDepot)
+            if (DepotMediator.TrainIsInDepot)
             {
                 if (platformList.Count < platformCountLimit)
                 {
                     Vector3 newPosition = new Vector3(0, 0, 0);
-                    GameObject newVagon = Instantiate(platformPrefab, newPosition, new Quaternion(), gameObject.transform);
-                    newVagon.GetComponent<SpriteRenderer>().sprite = sprite;
-                    PlatformController platformController = newVagon.GetComponent<PlatformController>();
-                    platformController.Initialize(platformPhysParams);
-                    platformList.Add(platformController);
-                    result = true;
+                    GameObject newPlatform = Instantiate(platformPrefab, newPosition, new Quaternion(), gameObject.transform);
+                    newPlatform.GetComponent<SpriteRenderer>().sprite = sprite;
+                    PlatformController platform = newPlatform.GetComponent<PlatformController>();
+                    platform.Initialize(platformPhysParams);
+                    platformList.Add(platform);
                     physParams = TrainPhysParams.CalculateTotalParams(platformList);
-                    TerrainTile tile = FindObjectOfType<TerrainManager>().GetTileMatrix()[depotPosition.x, depotPosition.y];
-                    platformController.TryChangeCurrentTile(tile, 0);
+                    SetPlatformInDepot(platform);
+                    result = true;
                 }
             }
             return result;
@@ -178,15 +183,58 @@ namespace BronePoezd.Train
             MarkPlatformToDestroy(platformList[removeIndex]);
         }
 
+        public void MarkPlatformToDestroy()
+        {
+            platformListIsLocked = true;
+            foreach (var platform in platformList)
+            {
+                MarkPlatformToDestroy(platform);
+            }
+            platformListIsLocked = false;
+        }
+
         public void LaunchTrain()
         {
             trainControlCanvas.enabled = true;
             trainControlCanvas.GetComponentInChildren<TrainTrustController>().enabled = true;
+            //здесь надо развернуть поезд в сторону выезда
             for (int platformIndex = 0; platformIndex < platformList.Count; platformIndex++)
             {
                 platformList[platformIndex].SetCurrentL(14.5f - 0.2f * platformIndex);
             }
-            isInDepot = false;
+        }
+
+        private bool CheckTrainIsInDepot()
+        {
+            bool result = true;
+            int platformIndex = 0;
+
+            while (result && platformIndex < platformList.Count)
+            {
+                result = platformList[platformIndex].IsPlatformInDepot();
+                Debug.LogFormat("Platform #{0} is in Depot:{1}", platformIndex, result);
+                platformIndex++;
+            }
+
+            return result;
+        }
+
+        private void SetTrainInDepot()
+        {
+            trainControlCanvas.enabled = false;
+            trainControlCanvas.GetComponentInChildren<TrainTrustController>().enabled = false;
+            currentSpeed = 0;
+            DepotMediator.SetTrainIsInDepot(true);
+            foreach (var platform in platformList)
+            {
+                SetPlatformInDepot(platform);
+            }
+        }
+
+        private void SetPlatformInDepot (PlatformController platform)
+        {
+            TerrainTile depotTile = FindObjectOfType<TerrainManager>().GetTileMatrix()[DepotMediator.GetDepotPosition().x, DepotMediator.GetDepotPosition().y];
+            platform.TryChangeCurrentTile(depotTile, 0);
         }
     }
 }

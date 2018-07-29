@@ -19,7 +19,7 @@ namespace BronePoezd.Interface
         GameObject segmentButtonPrefab, switcherModeButton;
         GameObject activeButton;
         [SerializeField]
-        GameObject train;
+        TrainController train;
         SelectedSegmentInfo activeSegmentInfo;
         [SerializeField]
         Canvas buttonsParent, depoPanel;
@@ -34,6 +34,8 @@ namespace BronePoezd.Interface
             constructionMode = ConstructionMode.empty;
 
             CreateButtonsPanel();
+
+            train = FindObjectOfType<TrainController>();
         }
 
         private void CreateButtonsPanel()
@@ -83,8 +85,25 @@ namespace BronePoezd.Interface
         {
             GameObject addedButton = Instantiate(segmentButtonPrefab, buttonsParent.transform);
 
-            byte exit1 = (byte)((prefabScript.Exit1 + (2 * rotationIndex)) % exitNumLimit);
-            byte exit2 = (byte)((prefabScript.Exit2 + (2 * rotationIndex)) % exitNumLimit);
+            byte exit1, exit2;
+            if (prefabScript.Exit1 < 9)
+            {
+                exit1 = (byte)((prefabScript.Exit1 + (2 * rotationIndex)) % exitNumLimit);
+            }
+            else
+            {
+                exit1 = prefabScript.Exit1;
+            }
+            if (prefabScript.Exit2 < 9)
+            {
+                exit2 = (byte)((prefabScript.Exit2 + (2 * rotationIndex)) % exitNumLimit);
+
+            }
+            else
+            {
+                exit2 = prefabScript.Exit2;
+            }
+
             addedButton.GetComponent<SegmentButtonScript>().SetExits(exit1, exit2);
 
             Image addedButtonImage = addedButton.GetComponentsInChildren<Image>()[1];
@@ -158,8 +177,7 @@ namespace BronePoezd.Interface
                 {
                     case ConstructionMode.builder:
                         {
-                            CheckDepotRemove(activeSegmentInfo, clickedTile);
-                            clickedTile.TryRemoveSegment(activeSegmentInfo);
+                            TryRemoveSegment(activeSegmentInfo, clickedTile);
                             break;
                         }
                     case ConstructionMode.switcher:
@@ -190,7 +208,7 @@ namespace BronePoezd.Interface
             if (constructionMode == ConstructionMode.builder)
             {
                 Debug.Log("Builder mode activated");
-                SetActiveSegmentInfo(clickedButton);
+                SetActiveSegmentInfo();
             }
             else if (constructionMode == ConstructionMode.switcher)
             {
@@ -198,7 +216,7 @@ namespace BronePoezd.Interface
             }
         }
 
-        void SetActiveSegmentInfo(GameObject clickedButton)
+        void SetActiveSegmentInfo()
         {
             var prefabScript = activeButton.GetComponent<SegmentButtonScript>();
             byte exit1 = prefabScript.Exit1;
@@ -213,21 +231,22 @@ namespace BronePoezd.Interface
             bool result = false;
             List<TerrainTile.RoadSegment> tileSegments = addedTile.TileSegments;
 
-            bool addedSegmentIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
+            Debug.LogFormat("activeSegment.Exit1 = {0}, activeSegment.Exit2 = {1}", activeSegment.Exit1, activeSegment.Exit2);
+            bool addedSegmentIsDepot = activeSegment.Exit1 == 9 && activeSegment.Exit2 == 3;
             if (addedSegmentIsDepot)
             {
-                Debug.LogFormat("Try to add Depot. depotExist = {0}", DepotData.DepotExist());
-                if (!DepotData.DepotExist() && tileSegments.Count == 0)
+                Debug.LogFormat("Try to add Depot. depotExist = {0}", DepotMediator.DepotExist());
+                if (!DepotMediator.DepotExist() && tileSegments.Count == 0)
                 {
                     result = true;
-                    DepotData.PlaceDepot(addedTile.Position);
+                    DepotMediator.PlaceDepot(addedTile.Position);
                 }
             }
             else
             {
                 if (tileSegments.Count > 0)
                 {
-                    bool tileHasDepot = tileSegments[0].Exit1 == 3 && tileSegments[0].Exit2 == 3;
+                    bool tileHasDepot = tileSegments[0].Exit1 == 9 && tileSegments[0].Exit2 == 3;
                     if (!tileHasDepot)
                     {
                         result = true;
@@ -239,18 +258,31 @@ namespace BronePoezd.Interface
             return result;
         }
 
-        private void CheckDepotRemove(SelectedSegmentInfo activeSegment, TerrainTile removedTile)
+        private void TryRemoveSegment(SelectedSegmentInfo segmentInfo, TerrainTile tile)
         {
-            if (DepotData.DepotExist())
+            TerrainTile.RoadSegment segment = new TerrainTile.RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, SegmentStatus.active, null);
+            if (tile.TileSegments.Contains(segment))
             {
-                bool selectedIsDepot = activeSegment.Exit1 == 3 && activeSegment.Exit2 == 3;
-                if (selectedIsDepot)
+                bool segmentIsFree = true;
+
+                if (!DepotMediator.TrainIsInDepot)
                 {
-                    List<TerrainTile.RoadSegment> tileSegments = removedTile.TileSegments;
-                    bool removedTileHasDepot = tileSegments.Count > 0 && tileSegments[0].Exit1 == 3 && tileSegments[0].Exit2 == 3;
-                    if (removedTileHasDepot)
+                    foreach (var platform in train.PlatformList)
                     {
-                        DepotData.RemoveDepot();
+                        if (platform.CurrentTile == tile)
+                        {
+                            segmentIsFree = false;
+                        }
+                    }
+                }
+
+                if (segmentIsFree)
+                {
+                    int removedSegmentIndex = tile.TileSegments.IndexOf(segment);
+                    tile.RemoveSegment(removedSegmentIndex);
+                    if (segment.Exit1 == 9 && segment.Exit2 == 3)
+                    {
+                        DepotMediator.RemoveDepot();
                         depoPanel.GetComponent<DepoManagerController>().TogglePanelOff();
                     }
                 }

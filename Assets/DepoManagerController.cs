@@ -21,6 +21,7 @@ namespace BronePoezd.Train
 
         private void Awake()
         {
+            Debug.Log("DepotManagerController Awake() executed");
             train = FindObjectOfType<TrainController>();
             paramsList = new List<TrainPhysParams>
             {
@@ -32,6 +33,8 @@ namespace BronePoezd.Train
             panelCanvas.enabled = false;
             CreateTypeButtons();
             train.TrainIsDestroyedEvent += TrainIsDestroyedEventHandler;
+            FindObjectOfType<DepotSpriteScript>().Initialize();
+            DepotMediator.Initialize();
         }
 
         private void CreateTypeButtons()
@@ -70,13 +73,12 @@ namespace BronePoezd.Train
 
         public void AddVagon(TrainPhysParams physParams, Sprite sprite)
         {
-            bool addIsSucced = train.AddPlatform(physParams, sprite, DepotData.DepotPosition());
+            bool addIsSucced = train.AddPlatform(physParams, sprite);
 
             if (addIsSucced)
             {
                 RedrawPlatformIcons();
             }
-
         }
 
         private void RedrawPlatformIcons()
@@ -139,7 +141,7 @@ namespace BronePoezd.Train
 
         private void TrainIsDestroyedEventHandler()
         {
-            if (DepotData.DepotExist())
+            if (DepotMediator.DepotExist())
             {
                 TogglePanelOn();
             }
@@ -147,7 +149,7 @@ namespace BronePoezd.Train
 
         public void GoButtonPresssedHandler()
         {
-            train.LaunchTrain();
+            DepotMediator.SetTrainIsInDepot(false);
 
 
             TogglePanelOff();

@@ -10,7 +10,6 @@ namespace BronePoezd.Train
     public class PlatformController : MonoBehaviour
     {
         TrainPhysParams physParams;
-        TerrainTile currentTile;
         byte exitFrom, exitTo;
         float currentL;
         SegmentsPathLibrary.SegmentPathData pathData;
@@ -18,6 +17,7 @@ namespace BronePoezd.Train
         Transform trainTransform;
         TrainController trainController;
         Vector3 currentTilePos;
+        public TerrainTile CurrentTile { get; private set; }
 
         public void Initialize(TrainPhysParams physParams)
         {
@@ -31,7 +31,7 @@ namespace BronePoezd.Train
         public void UpdatePosition(float currentSpeed)
         {
             float newL = currentL + currentSpeed / terrainManager.TileSize * Time.deltaTime;
-            Debug.LogFormat("UpdatePosition() executing. currentL = {0}, newL = {1}", currentL, newL);
+            //Debug.LogFormat("UpdatePosition() executing. currentL = {0}, newL = {1}", currentL, newL);
             currentL = newL;
             if (newL > pathData.LMax)
             {
@@ -137,8 +137,8 @@ namespace BronePoezd.Train
         private TerrainTile FindNewTile(byte exitTo)
         {
             TerrainTile newTile = null;
-            int x = currentTile.Position.x;
-            int y = currentTile.Position.y;
+            int x = CurrentTile.Position.x;
+            int y = CurrentTile.Position.y;
             switch (exitTo)
             {
                 case 0:
@@ -227,8 +227,8 @@ namespace BronePoezd.Train
 
         private void SetCurrentTile(TerrainTile newTile)
         {
-            currentTile = newTile;
-            currentTilePos = currentTile.transform.position;
+            CurrentTile = newTile;
+            currentTilePos = CurrentTile.transform.position;
         }
 
         public void DestroyPlatform()
@@ -239,6 +239,25 @@ namespace BronePoezd.Train
         public void SetCurrentL(float currentL)
         {
             this.currentL = currentL;
+        }
+
+        public bool IsPlatformInDepot()
+        {
+            bool result = false;
+            float depoTriggerL = 0.6f;
+            Vector2Int curTilePosition = new Vector2Int(CurrentTile.Position.x, CurrentTile.Position.y);
+            if (curTilePosition == DepotMediator.GetDepotPosition())
+            {
+                if (exitFrom == 9 && currentL < pathData.LMax - depoTriggerL)
+                {
+                    result = true;
+                }
+                else if (exitFrom == 3 && currentL > depoTriggerL)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
 
         internal TrainPhysParams GetPhysParams()

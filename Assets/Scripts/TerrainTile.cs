@@ -42,7 +42,7 @@ namespace BronePoezd.Terrain
             }
         }
 
-        void AddSegment(RoadManager.SelectedSegmentInfo segmentInfo)
+        private void AddSegment(RoadManager.SelectedSegmentInfo segmentInfo)
         {
             GameObject newSpriteObject = Instantiate(segmentSpritePrefab, gameObject.transform.position, Quaternion.Euler(0, 0, segmentInfo.Rotation), gameObject.transform);
             SpriteRenderer newSegmentSprite = newSpriteObject.GetComponent<SpriteRenderer>();
@@ -73,7 +73,7 @@ namespace BronePoezd.Terrain
 
         }
 
-        void RemoveSegment(int removedSegmentIndex)
+        public void RemoveSegment(int removedSegmentIndex)
         {
             if (TileSegments[removedSegmentIndex].Status == SegmentStatus.active && TileSegments.Count > 1)
             {

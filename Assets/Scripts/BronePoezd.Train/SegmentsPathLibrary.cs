@@ -36,21 +36,43 @@ namespace BronePoezd.Train
             switch (codeFromTo)
             {
                 #region Depot
-                case "33":
+                case "93":
                     {
                         const float magicLMax = 15;
                         xFunc = new Func<float, float>(l => 0.5f);
                         yFunc = new Func<float, float>(l =>
                         {
-                            const float magicPoint = 0.25f;
+                            const float magicPoint = 0.5f;
                             float y;
                             if (l > magicLMax - magicPoint)
                             {
-                                y = magicPoint + l - (magicLMax - magicPoint);
+                                y = 1 + l - magicLMax;
                             }
                             else
                             {
                                 y = magicPoint;
+                            }
+                            return y;
+                        });
+                        lMax = magicLMax;
+                        break;
+                    }
+
+                case "39":
+                    {
+                        const float magicLMax = 15;
+                        xFunc = new Func<float, float>(l => 0.5f);
+                        yFunc = new Func<float, float>(l =>
+                        {
+                            const float magicPoint = 0.5f;
+                            float y;
+                            if (l < magicPoint)
+                            {
+                                y = 1 - l;
+                            }
+                            else
+                            {
+                                y = 1 - magicPoint;
                             }
                             return y;
                         });
