@@ -33,7 +33,6 @@ namespace BronePoezd.Train
             panelCanvas.enabled = false;
             CreateTypeButtons();
             train.TrainIsDestroyedEvent += TrainIsDestroyedEventHandler;
-            FindObjectOfType<DepotSpriteScript>().Initialize();
             DepotMediator.Initialize();
         }
 

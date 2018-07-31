@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -44,10 +44,14 @@ namespace BronePoezd.Terrain
 
         private void AddSegment(RoadManager.SelectedSegmentInfo segmentInfo)
         {
-            GameObject newSpriteObject = Instantiate(segmentSpritePrefab, gameObject.transform.position, Quaternion.Euler(0, 0, segmentInfo.Rotation), gameObject.transform);
-            SpriteRenderer newSegmentSprite = newSpriteObject.GetComponent<SpriteRenderer>();
-            newSegmentSprite.sprite = segmentInfo.Sprite;
-            newSegmentSprite.size = new Vector2(terrainManager.TileSize * 1.05f, terrainManager.TileSize * 1.05f);
+            GameObject newSegmeentObject = Instantiate(segmentSpritePrefab, gameObject.transform.position, Quaternion.Euler(0, 0, segmentInfo.Rotation), gameObject.transform);
+            SpriteRenderer segmentSprite = newSegmeentObject.GetComponentsInChildren<SpriteRenderer>()[0];
+            segmentSprite.sprite = segmentInfo.SegmentSprite;
+            segmentSprite.size = new Vector2(terrainManager.TileSize * 1.05f, terrainManager.TileSize * 1.05f);
+
+            SpriteRenderer buildingSprite = newSegmeentObject.GetComponentsInChildren<SpriteRenderer>()[1];
+            buildingSprite.sprite = segmentInfo.BuildingSprite;
+            buildingSprite.size = new Vector2(terrainManager.TileSize * 0.6f, terrainManager.TileSize * 0.6f);
 
             SegmentStatus newSegmentStatus = SegmentStatus.inactive;
             if (TileSegments.Count == 0)
@@ -55,22 +59,10 @@ namespace BronePoezd.Terrain
                 newSegmentStatus = SegmentStatus.active;
             }
 
-            RoadSegment newSegment = new RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, newSegmentStatus, newSegmentSprite);
+            RoadSegment newSegment = new RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, newSegmentStatus, segmentSprite);
             TileSegments.Add(newSegment);
 
             TileSegments[TileSegments.Count - 1].SetStatus(newSegmentStatus);
-        }
-
-        public void TryRemoveSegment(RoadManager.SelectedSegmentInfo segmentInfo)
-        {
-            RoadSegment removedSegment = new RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, SegmentStatus.active, null);
-
-            if (TileSegments.Contains(removedSegment))
-            {
-                int removedSegmentIndex = TileSegments.IndexOf(removedSegment);
-                RemoveSegment(removedSegmentIndex);
-            }
-
         }
 
         public void RemoveSegment(int removedSegmentIndex)
@@ -191,7 +183,7 @@ namespace BronePoezd.Terrain
 
             public void DeleteSegment()
             {
-                Destroy(segmentSprite.gameObject);
+                Destroy(segmentSprite.transform.parent.gameObject);
             }
 
             public override bool Equals(object obj)

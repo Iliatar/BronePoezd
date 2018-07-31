@@ -1038,6 +1038,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1074,8 +1079,7 @@ Prefab:
       propertyPath: m_Name
       value: BigRightCurveSegment
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: df0fe46850126b1478fbd4ee9cadea5a,
@@ -1095,31 +1099,44 @@ Prefab:
       propertyPath: exit1
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: df0fe46850126b1478fbd4ee9cadea5a,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: df0fe46850126b1478fbd4ee9cadea5a,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: df0fe46850126b1478fbd4ee9cadea5a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0
@@ -1257,6 +1274,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1293,8 +1315,7 @@ Prefab:
       propertyPath: m_Name
       value: DepotSegment
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
@@ -1314,31 +1335,56 @@ Prefab:
       propertyPath: exit1
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: -545297671
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_SortingLayer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e30dbaf8610e0084cbc538cb68ae98da,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: e30dbaf8610e0084cbc538cb68ae98da,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buildingSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e30dbaf8610e0084cbc538cb68ae98da,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0
@@ -1484,6 +1530,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1520,8 +1571,7 @@ Prefab:
       propertyPath: m_Name
       value: SmallCurveSegment
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3295fe95f74af9a459c0e27c66c60565,
@@ -1541,21 +1591,36 @@ Prefab:
       propertyPath: exit1
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3295fe95f74af9a459c0e27c66c60565,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3295fe95f74af9a459c0e27c66c60565,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3295fe95f74af9a459c0e27c66c60565,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0
@@ -1600,7 +1665,7 @@ MonoBehaviour:
   segmentButtonPrefab: {fileID: 1727339667547980, guid: 96d0ef9f4dc46a349a63e2ab0f41261c,
     type: 2}
   switcherModeButton: {fileID: 1018069434}
-  train: {fileID: 0}
+  train: {fileID: 664663022}
   buttonsParent: {fileID: 125121320}
   depoPanel: {fileID: 209420147}
 --- !u!4 &1177932940
@@ -1999,6 +2064,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2045,32 +2115,45 @@ Prefab:
       propertyPath: exit2
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
         type: 3}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8168f1d44ee71cb45ae4bae1ab4d1ab4,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0
@@ -2439,6 +2522,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2475,8 +2563,7 @@ Prefab:
       propertyPath: m_Name
       value: BigLeftCurveSegment
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 28b5c8dfd17c89d4fb619e14e6d1ed69,
@@ -2496,21 +2583,36 @@ Prefab:
       propertyPath: exit1
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 28b5c8dfd17c89d4fb619e14e6d1ed69,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 28b5c8dfd17c89d4fb619e14e6d1ed69,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 28b5c8dfd17c89d4fb619e14e6d1ed69,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0
@@ -2587,92 +2689,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e,
     type: 2}
   m_PrefabInternal: {fileID: 1015237106}
---- !u!1 &1982083586
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1982083589}
-  - component: {fileID: 1982083588}
-  - component: {fileID: 1982083587}
-  m_Layer: 0
-  m_Name: DepotSprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1982083587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1982083586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba07735a69a94a47a60bd143afa0ba9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!212 &1982083588
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1982083586}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 586060219
-  m_SortingLayer: 5
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e30dbaf8610e0084cbc538cb68ae98da, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 1
-  m_Size: {x: 0.4, y: 0.56}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
---- !u!4 &1982083589
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1982083586}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2005809367
 Prefab:
   m_ObjectHideFlags: 0
@@ -2680,6 +2696,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1177932940}
     m_Modifications:
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062803411950628, guid: f0c31eed07c124044b69735dad35242e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2716,8 +2737,7 @@ Prefab:
       propertyPath: m_Name
       value: DiagonalSegment
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: cd96ae617bda2064eaaa14208c542b8f,
@@ -2732,21 +2752,36 @@ Prefab:
       propertyPath: exit2
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: 212454676074357918, guid: f0c31eed07c124044b69735dad35242e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: buttonSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd96ae617bda2064eaaa14208c542b8f,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: tileSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: cd96ae617bda2064eaaa14208c542b8f,
+        type: 3}
+    - target: {fileID: 114902947937741634, guid: f0c31eed07c124044b69735dad35242e,
+        type: 2}
+      propertyPath: segmentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd96ae617bda2064eaaa14208c542b8f,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c31eed07c124044b69735dad35242e, type: 2}
   m_IsPrefabParent: 0

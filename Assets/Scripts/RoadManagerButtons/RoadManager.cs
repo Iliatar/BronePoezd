@@ -23,7 +23,7 @@ namespace BronePoezd.Interface
         SelectedSegmentInfo activeSegmentInfo;
         [SerializeField]
         Canvas buttonsParent, depoPanel;
-        public enum ConstructionMode : byte { empty, builder, switcher}
+        public enum ConstructionMode : byte { empty, builder, switcher }
         ConstructionMode constructionMode;
 
         private void Start()
@@ -40,7 +40,7 @@ namespace BronePoezd.Interface
 
         private void CreateButtonsPanel()
         {
-            SegmentPrefabScript[] segmentPrefabsList = GetComponentsInChildren<SegmentPrefabScript>();
+            SegmentButtonTemplateScript[] segmentPrefabsList = GetComponentsInChildren<SegmentButtonTemplateScript>();
             RectTransform parentRect = buttonsParent.GetComponent<RectTransform>();
 
             SetCanvas(segmentPrefabsList.Length, parentRect);
@@ -48,7 +48,7 @@ namespace BronePoezd.Interface
 
             int maxRotationCount = 0;
             int prefabIndex = 0;
-            foreach (SegmentPrefabScript prefabScript in segmentPrefabsList)
+            foreach (SegmentButtonTemplateScript prefabScript in segmentPrefabsList)
             {
                 if (prefabScript.RotationCount > maxRotationCount)
                 {
@@ -66,7 +66,7 @@ namespace BronePoezd.Interface
 
         }
 
-        private void SetFunctionalPanel(SegmentPrefabScript[] segmentPrefabsList)
+        private void SetFunctionalPanel(SegmentButtonTemplateScript[] segmentPrefabsList)
         {
             SetFunctionalButton(switcherModeButton, segmentPrefabsList.Count(), 0);
         }
@@ -81,34 +81,36 @@ namespace BronePoezd.Interface
             buttonRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonSize);
         }
 
-        private void InstantiateButton(int prefabIndex, int rotationIndex, SegmentPrefabScript prefabScript)
+        private void InstantiateButton(int prefabIndex, int rotationIndex, SegmentButtonTemplateScript template)
         {
             GameObject addedButton = Instantiate(segmentButtonPrefab, buttonsParent.transform);
 
             byte exit1, exit2;
-            if (prefabScript.Exit1 < 9)
+            if (template.Exit1 < 9)
             {
-                exit1 = (byte)((prefabScript.Exit1 + (2 * rotationIndex)) % exitNumLimit);
+                exit1 = (byte)((template.Exit1 + (2 * rotationIndex)) % exitNumLimit);
             }
             else
             {
-                exit1 = prefabScript.Exit1;
+                exit1 = template.Exit1;
             }
-            if (prefabScript.Exit2 < 9)
+            if (template.Exit2 < 9)
             {
-                exit2 = (byte)((prefabScript.Exit2 + (2 * rotationIndex)) % exitNumLimit);
+                exit2 = (byte)((template.Exit2 + (2 * rotationIndex)) % exitNumLimit);
 
             }
             else
             {
-                exit2 = prefabScript.Exit2;
+                exit2 = template.Exit2;
             }
 
-            addedButton.GetComponent<SegmentButtonScript>().SetExits(exit1, exit2);
+            SegmentButtonScript buttonScript = addedButton.GetComponent<SegmentButtonScript>();
+            buttonScript.SetExits(exit1, exit2);
+            buttonScript.SetSprites(template.GetButtonSprite(), template.GetSegmentSprite(), template.GetBuildingSprite());
 
             Image addedButtonImage = addedButton.GetComponentsInChildren<Image>()[1];
-            addedButtonImage.sprite = prefabScript.GetComponent<SpriteRenderer>().sprite;
-            addedButtonImage.color = new Color(0, 0, 0, 1);
+            addedButtonImage.sprite = template.GetButtonSprite();
+            addedButtonImage.color = new Color(1, 1, 1, 1);
             addedButtonImage.type = Image.Type.Sliced;
 
             RectTransform addedButtonRect = addedButton.GetComponent<RectTransform>();
@@ -156,7 +158,10 @@ namespace BronePoezd.Interface
                         }
                     case ConstructionMode.switcher:
                         {
-                            clickedTile.GetComponent<TerrainTile>().IterateActiveSegment();
+                            if (IsTileFree(clickedTile))
+                            {
+                                clickedTile.GetComponent<TerrainTile>().IterateActiveSegment();
+                            }
                             break;
                         }
                     default:
@@ -218,12 +223,11 @@ namespace BronePoezd.Interface
 
         void SetActiveSegmentInfo()
         {
-            var prefabScript = activeButton.GetComponent<SegmentButtonScript>();
-            byte exit1 = prefabScript.Exit1;
-            byte exit2 = prefabScript.Exit2;
-            Sprite sprite = activeButton.GetComponentsInChildren<Image>()[1].sprite;
+            var buttonScript = activeButton.GetComponent<SegmentButtonScript>();
+            byte exit1 = buttonScript.Exit1;
+            byte exit2 = buttonScript.Exit2;
             float rotation = activeButton.GetComponent<RectTransform>().rotation.eulerAngles.z;
-            activeSegmentInfo = new SelectedSegmentInfo(exit1, exit2, sprite, rotation);
+            activeSegmentInfo = new SelectedSegmentInfo(exit1, exit2, buttonScript.SegmentSprite, buttonScript.BuildingSprite, rotation);
         }
 
         private bool CheckDepotBuild(SelectedSegmentInfo activeSegment, TerrainTile addedTile)
@@ -263,20 +267,7 @@ namespace BronePoezd.Interface
             TerrainTile.RoadSegment segment = new TerrainTile.RoadSegment(segmentInfo.Exit1, segmentInfo.Exit2, SegmentStatus.active, null);
             if (tile.TileSegments.Contains(segment))
             {
-                bool segmentIsFree = true;
-
-                if (!DepotMediator.TrainIsInDepot)
-                {
-                    foreach (var platform in train.PlatformList)
-                    {
-                        if (platform.CurrentTile == tile)
-                        {
-                            segmentIsFree = false;
-                        }
-                    }
-                }
-
-                if (segmentIsFree)
+                if (IsTileFree(tile))
                 {
                     int removedSegmentIndex = tile.TileSegments.IndexOf(segment);
                     tile.RemoveSegment(removedSegmentIndex);
@@ -289,18 +280,38 @@ namespace BronePoezd.Interface
             }
         }
 
+        private bool IsTileFree(TerrainTile tile)
+        {
+            bool segmentIsFree = true;
+
+            if (!DepotMediator.TrainIsInDepot)
+            {
+                foreach (var platform in train.PlatformList)
+                {
+                    if (platform.CurrentTile == tile)
+                    {
+                        segmentIsFree = false;
+                    }
+                }
+            }
+
+            return segmentIsFree;
+        }
+
         public struct SelectedSegmentInfo
         {
             public byte Exit1 { get; private set; }
             public byte Exit2 { get; private set; }
-            public Sprite Sprite { get; private set; }
+            public Sprite SegmentSprite { get; private set; }
+            public Sprite BuildingSprite { get; private set; }
             public float Rotation { get; private set; }
 
-            public SelectedSegmentInfo(byte exit1, byte exit2, Sprite sprite, float rotation)
+            public SelectedSegmentInfo(byte exit1, byte exit2, Sprite segmentSprite, Sprite buildingSprite, float rotation)
             {
                 this.Exit1 = exit1;
                 this.Exit2 = exit2;
-                this.Sprite = sprite;
+                this.SegmentSprite = segmentSprite;
+                this.BuildingSprite = buildingSprite;
                 this.Rotation = rotation;
             }
         }

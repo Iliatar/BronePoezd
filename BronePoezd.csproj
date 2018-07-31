@@ -308,7 +308,6 @@
   <ItemGroup>
     <Compile Include="Assets\BreakingButtonScript.cs" />
     <Compile Include="Assets\DepoManagerController.cs" />
-    <Compile Include="Assets\DepotSpriteScript.cs" />
     <Compile Include="Assets\PlatformButtonScript.cs" />
     <Compile Include="Assets\PlatformIconScript.cs" />
     <Compile Include="Assets\Scripts\BronePoezd.Train\PlatformController.cs" />
@@ -323,7 +322,7 @@
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManager.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\RoadManagerButtonScript.cs" />
     <Compile Include="Assets\Scripts\RoadManagerButtons\SegmentButtonScript.cs" />
-    <Compile Include="Assets\Scripts\SegmentPrefabScript.cs" />
+    <Compile Include="Assets\Scripts\SegmentButtonTemplateScript.cs" />
     <Compile Include="Assets\Scripts\TerrainManager.cs" />
     <Compile Include="Assets\Scripts\TerrainTile.cs" />
   </ItemGroup>
